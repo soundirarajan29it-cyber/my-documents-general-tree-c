@@ -1,0 +1,10 @@
+General Tree Structure:
+
+|-- My Documents
+   |-- College
+      |-- Semester 1
+      |-- Semester 2
+   |-- Photos
+   |-- Projects
+      |-- C++ Project
+      |-- DSA Project
