@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CHILDREN 10
+
+// Structure for folder node
+struct Folder {
+    char name[50];
+    struct Folder* children[MAX_CHILDREN];
+    int childCount;
+};
+
+// Create new folder
+struct Folder* createFolder(char name[]) {
+    struct Folder* newFolder =
+        (struct Folder*)malloc(sizeof(struct Folder));
+
+    strcpy(newFolder->name, name);
+    newFolder->childCount = 0;
+
+    return newFolder;
+}
+
+// Add sub-folder
+void addSubFolder(struct Folder* parent,
+                  struct Folder* child) {
+
+    if(parent->childCount < MAX_CHILDREN) {
+        parent->children[parent->childCount] = child;
+        parent->childCount++;
+    }
+}
+
+// Display tree structure
+void displayTree(struct Folder* root, int level) {
+
+    for(int i = 0; i < level; i++) {
+        printf("   ");
+    }
+
+    printf("|-- %s\n", root->name);
+
+    for(int i = 0; i < root->childCount; i++) {
+        displayTree(root->children[i], level + 1);
+    }
+}
+
+int main() {
+
+    // Root folder
+    struct Folder* myDocuments =
+        createFolder("My Documents");
+
+    // Main folders
+    struct Folder* college =
+        createFolder("College");
+
+    struct Folder* photos =
+        createFolder("Photos");
+
+    struct Folder* projects =
+        createFolder("Projects");
+
+    // Sub-folders
+    struct Folder* sem1 =
+        createFolder("Semester 1");
+
+    struct Folder* sem2 =
+        createFolder("Semester 2");
+
+    struct Folder* cppProject =
+        createFolder("C++ Project");
+
+    struct Folder* dsaProject =
+        createFolder("DSA Project");
+
+    // Build tree
+    addSubFolder(myDocuments, college);
+    addSubFolder(myDocuments, photos);
+    addSubFolder(myDocuments, projects);
+
+    addSubFolder(college, sem1);
+    addSubFolder(college, sem2);
+
+    addSubFolder(projects, cppProject);
+    addSubFolder(projects, dsaProject);
+
+    // Display
+    printf("General Tree Structure:\n\n");
+
+    displayTree(myDocuments, 0);
+
+    return 0;
+}
